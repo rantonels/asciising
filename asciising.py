@@ -46,7 +46,7 @@ while True:
             state[X][Y] = - state[X][Y]
             stdscr.addch(Y,X, chars[state[X][Y]] )
 
-    stdscr.addstr(0,0,"T = "+str(T) + ", H = "+str(B))
+    stdscr.addstr(0,0,"T = %.3f"%T + ", H = %.3f"%B)
     
     stdscr.refresh()
 
@@ -59,11 +59,21 @@ while True:
     if (chin == curses.KEY_UP): T += 0.025
     if (chin == curses.KEY_DOWN): T -= 0.025
 
-    if (chin == curses.KEY_LEFT): B -= 0.025
-    if (chin == curses.KEY_RIGHT): B += 0.025
+    if (chin == curses.KEY_LEFT): B -= 0.1
+    if (chin == curses.KEY_RIGHT): B += 0.1
 
     T = max(0.025,T)
 
+
+    if (chin == curses.KEY_RESIZE):
+        H, W = stdscr.getmaxyx()
+        H-=1
+        W-=1
+        #curses.resizeterm(H,W)
+        oldstate = list(state)
+        state = [[1 for i in range(H)] for j in range(W)]
+        stdscr.refresh()
+        
 
 
 
